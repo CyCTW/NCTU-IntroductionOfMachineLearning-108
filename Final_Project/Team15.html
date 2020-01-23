@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Machine Learning Final Project — Grade Prediction - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @charset "UTF-8";@import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-published-note{color:#337ab7}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true" style="position: relative;"><h1 id="Machine-Learning-Final-Project-—-Grade-Prediction"><a class="anchor hidden-xs" href="#Machine-Learning-Final-Project-—-Grade-Prediction" title="Machine-Learning-Final-Project-—-Grade-Prediction"><span class="octicon octicon-link"></span></a>Machine Learning Final Project — <br>Grade Prediction</h1><div class="alert alert-info">
+<p>Team15.zip</p>
+<p>– <a href="https://colab.research.google.com/drive/1qOBXs8kU-LowhJ_fLjer1-WAwVsIapRs" target="_blank" rel="noopener">Team15_Palmistry_CNN.py (link)</a>-&gt; Image classification using CNN</p>
+<p>– <a href="https://colab.research.google.com/drive/1TKEf1ixWZUbR3qNwHlyeTU5fJTdbYOQK" target="_blank" rel="noopener">Team15_Model.py (link)</a> -&gt; Classification using Random Forest and Logistic Regression</p>
+<p>– Team15.pptx -&gt; presentation ppt</p>
+<p>– Team15.html -&gt; Report</p>
+</div><p><em>Group 15:<br>
+0616225 張承遠, 0616093 吳柏憲, 0612019 鄧遠翔, 0616227 陳亭妤, 0616228 莊于萱</em></p><p><span class="toc"><ul>
+<li><a href="#Machine-Learning-Final-Project-—-Grade-Prediction" title="Machine Learning Final Project — Grade Prediction">Machine Learning Final Project — Grade Prediction</a><ul>
+<li><a href="#Before-reading" title="Before reading:">Before reading:</a></li>
+<li><a href="#Introduction" title="Introduction:">Introduction:</a></li>
+<li><a href="#Motivation" title="Motivation:">Motivation:</a></li>
+<li><a href="#Data_Collection" title="Data_Collection:">Data_Collection:</a></li>
+<li><a href="#Data_Preprocessing" title="Data_Preprocessing:">Data_Preprocessing:</a></li>
+<li><a href="#Data_Visualization" title="Data_Visualization:">Data_Visualization:</a></li>
+<li><a href="#Model_Construcion" title="Model_Construcion:">Model_Construcion:</a><ul>
+<li><a href="#1CNNConvolutional-Neural-Network" title="1.CNN(Convolutional Neural Network):">1.CNN(Convolutional Neural Network):</a></li>
+<li><a href="#2-Random-Forest" title="2. Random Forest:">2. Random Forest:</a></li>
+<li><a href="#3-Logistic-Regression" title="3. Logistic Regression:">3. Logistic Regression:</a></li>
+</ul>
+</li>
+<li><a href="#Problems" title="Problems">Problems</a></li>
+<li><a href="#Future-work" title="Future work:">Future work:</a></li>
+<li><a href="#Conclusion" title="Conclusion:">Conclusion:</a></li>
+</ul>
+</li>
+</ul>
+</span></p><h2 id="Before-reading"><a class="anchor hidden-xs" href="#Before-reading" title="Before-reading"><span class="octicon octicon-link"></span></a>Before reading:</h2><div class="alert alert-danger">
+<p>I do this project on CoLab due to free GPU environment. I  <strong>do file manipulation</strong>, <strong>use command line</strong> and <strong>fetch data from my GoogleDrive</strong> on the virtual machine in the environment. It may <strong>cause some error</strong> if executing the program in other environment.</p>
+</div><h2 id="Introduction"><a class="anchor hidden-xs" href="#Introduction" title="Introduction"><span class="octicon octicon-link"></span></a>Introduction:</h2><p>Try to predict Student’s Grade with some specific features.<br>
+<mark>features: 第幾類組、平均睡幾個小時、家境、性別、每天讀書時間 etc.</mark></p><p>Furthermore, try to predict Student’s Grade with a palm image.</p><h2 id="Motivation"><a class="anchor hidden-xs" href="#Motivation" title="Motivation"><span class="octicon octicon-link"></span></a>Motivation:</h2><p>Due to the strongness of Machine Learning, we tried to do something special that human is hard to solve. <strong>Then, we came up with an idea – Palmistry</strong>.</p><p>We are curious about whether fortune teller is a superstition or is actually truthful. Hence, we collect palm image data and try to find the mysterious relation between palm and grade.</p><h2 id="Data_Collection"><a class="anchor hidden-xs" href="#Data_Collection" title="Data_Collection"><span class="octicon octicon-link"></span></a>Data_Collection:</h2><p>Questionnaire posted on social media (Facebook, Instagram, Line etc.) with 17 questions.<br>
+(16 specific feature and 1 palm image)</p><p>Finally, we got about 180 responses with some missing data. (some questions are answered optionally.)</p><h2 id="Data_Preprocessing"><a class="anchor hidden-xs" href="#Data_Preprocessing" title="Data_Preprocessing"><span class="octicon octicon-link"></span></a>Data_Preprocessing:</h2><ul>
+<li><strong>Fill missing value:</strong><br>
+Fill missing value with highest frequency if feature is categorical.<br>
+Fill missing value with average if feature is numerical.</li>
+<li><strong>Deal with noise data:</strong><br>
+Some data are noisy. ex: 就讀學校：鬼殺隊<br>
+Some data are not in the same format. ex: 就讀學校：交通大學、交大、交通 etc.<br>
+<strong>Ex:</strong></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span></div><div class="code">data_csv[<span class="hljs-string">'生理性別'</span>].fillna(<span class="hljs-string">"男"</span>,inplace=<span class="hljs-keyword">True</span>)
+</div></div></code></pre><p>We manually modified each data to the same format and treated noisy data as missing value.</p><ul>
+<li>
+<p><strong>one-hot encoding and label encoding:</strong><br>
+For categorical data, we do label encoding and one-hot encoding to transform all feature to numerical type.<br>
+<mark><strong>Code Demonstration:</strong></mark></p>
+<p><strong>Explanation:</strong><br>
+Split the feature into numerical, unused, and categorical.<br>
+Using function <em>get_dummies()</em> can easily do label encoding and one-hot encoding.</p>
+</li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span></div><div class="code">unused_feat = [<span class="hljs-string">'翹課堂數/上課堂數'</span>, <span class="hljs-string">'就讀的學校'</span>, <span class="hljs-string">'時間戳記'</span>, <span class="hljs-string">'左手的掌心照'</span>,<span class="hljs-string">'喜歡的顏色'</span>]
+numerical_feat = [<span class="hljs-string">'近視度數'</span>, <span class="hljs-string">'每週運動幾次'</span>, <span class="hljs-string">'如果有打工的話 打工時薪多少'</span>, <span class="hljs-string">'你喜歡自己讀的科系嗎'</span>, <span class="hljs-string">'平均每天讀書時間(小時)'</span>]
+target_feat = <span class="hljs-string">'平均成績％數'</span>
+
+
+data_drop = data_csv.drop(columns= [target_feat] + unused_feat + numerical_feat)
+data_encoding = pd.get_dummies(data_drop)
+
+data_t = pd.concat([data_encoding, data_csv.loc[:, numerical_feat]], axis=<span class="hljs-number">1</span>)
+data_t
+</div></div></code></pre><ul>
+<li><strong>Image resizing, Image transforming:</strong><br>
+For image, we do
+<ol>
+<li>resizing to uniform the image size.</li>
+<li>transforming to reduce noise in image. (GrayScale, Gaussian Filter)<br>
+<strong><mark>Code Demonstration:</mark></strong></li>
+</ol>
+</li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span>
+<span data-linenumber="48"></span>
+<span data-linenumber="49"></span>
+<span data-linenumber="50"></span>
+<span data-linenumber="51"></span>
+<span data-linenumber="52"></span>
+<span data-linenumber="53"></span>
+<span data-linenumber="54"></span>
+<span data-linenumber="55"></span>
+<span data-linenumber="56"></span>
+<span data-linenumber="57"></span></div><div class="code"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image, ExifTags
+%pylab inline
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">import</span> matplotlib.image <span class="hljs-keyword">as</span> mpimg
+<span class="hljs-keyword">import</span> functools
+<span class="hljs-keyword">from</span> scipy.ndimage <span class="hljs-keyword">import</span> gaussian_filter
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">image_transpose_exif</span><span class="hljs-params">(im)</span>:</span>
+    <span class="hljs-string">"""
+        Apply Image.transpose to ensure 0th row of pixels is at the visual
+        top of the image, and 0th column is the visual left-hand side.
+        Return the original image if unable to determine the orientation.
+
+        As per CIPA DC-008-2012, the orientation field contains an integer,
+        1 through 8. Other values are reserved.
+    """</span>
+
+    exif_orientation_tag = <span class="hljs-number">0x0112</span>
+    exif_transpose_sequences = [                   <span class="hljs-comment"># Val  0th row  0th col</span>
+        [],                                        <span class="hljs-comment">#  0    (reserved)</span>
+        [],                                        <span class="hljs-comment">#  1   top      left</span>
+        [Image.FLIP_LEFT_RIGHT],                   <span class="hljs-comment">#  2   top      right</span>
+        [Image.ROTATE_180],                        <span class="hljs-comment">#  3   bottom   right</span>
+        [Image.FLIP_TOP_BOTTOM],                   <span class="hljs-comment">#  4   bottom   left</span>
+        [Image.FLIP_LEFT_RIGHT, Image.ROTATE_90],  <span class="hljs-comment">#  5   left     top</span>
+        [Image.ROTATE_270],                        <span class="hljs-comment">#  6   right    top</span>
+        [Image.FLIP_TOP_BOTTOM, Image.ROTATE_90],  <span class="hljs-comment">#  7   right    bottom</span>
+        [Image.ROTATE_90],                         <span class="hljs-comment">#  8   left     bottom</span>
+    ]
+
+    <span class="hljs-keyword">try</span>:
+        seq = exif_transpose_sequences[im._getexif()[exif_orientation_tag]]
+    <span class="hljs-keyword">except</span> Exception:
+        <span class="hljs-keyword">return</span> im
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> functools.reduce(type(im).transpose, seq, im)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">convertjpg</span><span class="hljs-params">(jpgfile,width=<span class="hljs-number">384</span>,height=<span class="hljs-number">512</span>)</span>:</span>
+    <span class="hljs-keyword">try</span> :
+        image = Image.open(jpgfile)
+        
+        image = image_transpose_exif(image) <span class="hljs-comment"># rotate image (some picture will be rotated after resizing, need to rotate back)</span>
+        image = image.convert(<span class="hljs-string">'LA'</span>) <span class="hljs-comment"># convert to grayscale</span>
+        image=image.resize((width, height), Image.ANTIALIAS) <span class="hljs-comment"># resize image</span>
+
+        os.remove(os.path.join(os.getcwd(), jpgfile))
+        
+        img_convert = np.array(image)
+        img_c = gaussian_filter(img_convert, sigma=<span class="hljs-number">0.7</span>) <span class="hljs-comment"># Gaussian Filter</span>
+        image = Image.fromarray(img_c )
+        
+        image.save(jpgfile)
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        print(e)
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+</div></div></code></pre><p><strong>Implementation of dividing data and converting image:</strong><br>
+<em>For simplicity, we divide grade into two class: 0-40% and 41-100%.<br>
+The reason we choose the segmented point is to check whether he can promote to graduated or not.</em><br>
+<strong><mark>Code Demonstration:</mark></strong></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span></div><div class="code">cnt1, cnt2, cnt3 = <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>
+
+<span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span>  data_csv.index:
+    <span class="hljs-comment"># grade = data_csv.loc[row, "生理性別"]</span>
+    grade = data_csv.loc[row, <span class="hljs-string">"平均成績％數"</span>]
+    pic_ID = data_csv.loc[row, <span class="hljs-string">"左手的掌心照"</span>]
+    
+    pic_ID = pic_ID[pic_ID.find(<span class="hljs-string">"id"</span>)+<span class="hljs-number">3</span>:]
+    <span class="hljs-keyword">if</span> pic_ID <span class="hljs-keyword">in</span> [<span class="hljs-string">"1L-DTFqfoj0MKAyG1MCIBYuC0tCTUNby1"</span>, <span class="hljs-string">"1saw4I-6_Oo-37tOcSqq5ceLA-WIz_vj4"</span>, <span class="hljs-string">"1invk7pqN5BeaXBtXa3gQRTZ7vICmm08F"</span>, <span class="hljs-string">"1UrImTDWGqBPHtP4fzREf77i7Kow7w23t"</span>, <span class="hljs-string">"1aPl6uKvUYwGL-yt6I1x8ILDVONdFJTeU"</span>, <span class="hljs-string">"1Cf9lkd89gRhDbJxl9POhPFPWy8uGVcgG"</span>, <span class="hljs-string">"1FwU9BEojTnnCZ_k2NwmUzukuyAl_LkB6"</span>, <span class="hljs-string">"1EmWAdyIoK7QZ7I9wkK1tSXiY6K4V1zHS"</span> ]:
+        <span class="hljs-keyword">continue</span>
+    <span class="hljs-comment"># print(pic_ID)</span>
+    downloaded = drive.CreateFile({<span class="hljs-string">'id'</span>: pic_ID})
+    print(pic_ID)
+
+    <span class="hljs-keyword">if</span> grade==<span class="hljs-string">"0-10%"</span> <span class="hljs-keyword">or</span> grade==<span class="hljs-string">"11-20%"</span> <span class="hljs-keyword">or</span> grade==<span class="hljs-string">"21-30%"</span> <span class="hljs-keyword">or</span> grade==<span class="hljs-string">"31-40%"</span>:
+        pic_name = <span class="hljs-string">"first_"</span> + str(cnt1) + <span class="hljs-string">".png"</span>
+        print(pic_name)
+        downloaded.GetContentFile(pic_name)
+        succ = convertjpg(pic_name)
+        <span class="hljs-keyword">if</span> succ==<span class="hljs-number">0</span>:
+            os.remove(os.getcwd()+<span class="hljs-string">"/"</span>+pic_name)
+            <span class="hljs-keyword">continue</span>;
+        cnt1 += <span class="hljs-number">1</span>
+
+        img=mpimg.imread(pic_name)
+        imgplot = plt.imshow(img)
+        plt.show()
+        shutil.move(pic_name, <span class="hljs-string">"first/"</span>)
+    
+    <span class="hljs-keyword">else</span>:
+        pic_name = <span class="hljs-string">"second_"</span> + str(cnt2) + <span class="hljs-string">".png"</span>
+        print(pic_name)
+        downloaded.GetContentFile(pic_name)
+        succ = convertjpg(pic_name)
+        <span class="hljs-keyword">if</span> succ==<span class="hljs-number">0</span>:
+            os.remove(os.getcwd()+<span class="hljs-string">"/"</span>+pic_name)
+            <span class="hljs-keyword">continue</span>;
+        cnt2 += <span class="hljs-number">1</span>
+
+        img=mpimg.imread(pic_name)
+        imgplot = plt.imshow(img)
+        plt.show()
+        shutil.move(pic_name, <span class="hljs-string">"second/"</span>)
+</div></div></code></pre><p><strong>Part of output:</strong><br>
+<img src="https://i.imgur.com/setV2Uy.png" alt=""></p><ul>
+<li><strong>Train set, Validation set and Test set</strong><br>
+For normal features classification, we divide data to training set(70%) and testing set(30%)<br>
+<strong><mark>Code Demonstration:</mark></strong><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split
+
+X = data_t
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="hljs-number">0.33</span>, random_state=<span class="hljs-number">1</span>)
+</div></div></code></pre>
+For image classification, we divide data to training set(50%), validation set(25%), testing set(25%)<br>
+<strong><mark>Code Demonstration:</mark></strong></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span>
+<span data-linenumber="48"></span>
+<span data-linenumber="49"></span>
+<span data-linenumber="50"></span>
+<span data-linenumber="51"></span>
+<span data-linenumber="52"></span>
+<span data-linenumber="53"></span>
+<span data-linenumber="54"></span>
+<span data-linenumber="55"></span>
+<span data-linenumber="56"></span>
+<span data-linenumber="57"></span>
+<span data-linenumber="58"></span>
+<span data-linenumber="59"></span>
+<span data-linenumber="60"></span>
+<span data-linenumber="61"></span>
+<span data-linenumber="62"></span>
+<span data-linenumber="63"></span>
+<span data-linenumber="64"></span>
+<span data-linenumber="65"></span>
+<span data-linenumber="66"></span>
+<span data-linenumber="67"></span>
+<span data-linenumber="68"></span>
+<span data-linenumber="69"></span>
+<span data-linenumber="70"></span>
+<span data-linenumber="71"></span>
+<span data-linenumber="72"></span>
+<span data-linenumber="73"></span>
+<span data-linenumber="74"></span>
+<span data-linenumber="75"></span></div><div class="code"><span class="hljs-comment">## splits indices for a folder into train, validation, and test indices with random sampling</span>
+    <span class="hljs-comment">## input: folder path</span>
+    <span class="hljs-comment">## output: train, valid, and test indices    </span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">split_indices</span><span class="hljs-params">(folder,seed1,seed2)</span>:</span>    
+    n = len(os.listdir(folder))
+        
+    full_set = list(range(<span class="hljs-number">1</span>,n+<span class="hljs-number">1</span>))
+    <span class="hljs-comment">## train indices</span>
+    ran.seed(seed1)
+    train = ran.sample(list(range(<span class="hljs-number">1</span>,n+<span class="hljs-number">1</span>)),int(<span class="hljs-number">.5</span>*n))
+
+    <span class="hljs-comment">## temp</span>
+    remain = list(set(full_set)-set(train))
+    <span class="hljs-comment"># valid = list(set(full_set)-set(train))</span>
+
+    <span class="hljs-comment">## separate remaining into validation and test</span>
+    ran.seed(seed2)
+    valid = ran.sample(remain,int(<span class="hljs-number">.5</span>*len(remain)))
+    test = list(set(remain)-set(valid))
+    
+    <span class="hljs-keyword">return</span>(train,valid, test)
+
+<span class="hljs-comment">## gets file names for a particular type of trash, given indices</span>
+    <span class="hljs-comment">## input: waste category and indices</span>
+    <span class="hljs-comment">## output: file names </span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_names</span><span class="hljs-params">(waste_type,indices)</span>:</span>
+    file_names = [waste_type+<span class="hljs-string">"_"</span>+str(i)+<span class="hljs-string">".png"</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> indices]
+    <span class="hljs-keyword">return</span>(file_names)    
+
+<span class="hljs-comment">## moves group of source files to another folder</span>
+    <span class="hljs-comment">## input: list of source files and destination folder</span>
+    <span class="hljs-comment">## no output</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">move_files</span><span class="hljs-params">(source_files,destination_folder)</span>:</span>
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> source_files:
+        shutil.copy(file,destination_folder)
+        
+<span class="hljs-comment">#####################################################     </span>
+    
+<span class="hljs-comment">## paths will be train/cardboard, train/glass, etc...</span>
+subsets = [<span class="hljs-string">'train'</span>,<span class="hljs-string">'valid'</span>]
+
+grade_types = [<span class="hljs-string">'first'</span>, <span class="hljs-string">'second'</span>]
+!rm -r data/train data/valid data/test
+<span class="hljs-comment">## create destination folders for data subset and waste type</span>
+<span class="hljs-keyword">for</span> subset <span class="hljs-keyword">in</span> subsets:
+    <span class="hljs-keyword">for</span> grade_type <span class="hljs-keyword">in</span> grade_types:
+        folder = os.path.join(<span class="hljs-string">'data'</span>,subset,grade_type)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(folder):
+            os.makedirs(folder)
+            
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(os.path.join(<span class="hljs-string">'data'</span>,<span class="hljs-string">'test'</span>)):
+    os.makedirs(os.path.join(<span class="hljs-string">'data'</span>,<span class="hljs-string">'test'</span>))
+            
+<span class="hljs-comment">## move files to destination folders for each waste type</span>
+<span class="hljs-keyword">for</span> grade_type <span class="hljs-keyword">in</span> grade_types:
+    source_folder = grade_type
+    train_ind, valid_ind, test_ind = split_indices(source_folder,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)
+    
+    <span class="hljs-comment">## move source files to train</span>
+    train_names = get_names(grade_type,train_ind)
+    train_source_files = [os.path.join(source_folder,name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> train_names]
+    train_dest = <span class="hljs-string">"data/train/"</span>+grade_type
+    move_files(train_source_files,train_dest)
+    
+    <span class="hljs-comment">## move source files to valid</span>
+    valid_names = get_names(grade_type,valid_ind)
+    valid_source_files = [os.path.join(source_folder,name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> valid_names]
+    valid_dest = <span class="hljs-string">"data/valid/"</span>+grade_type
+    move_files(valid_source_files,valid_dest)
+    
+    <span class="hljs-comment">## move source files to test</span>
+    test_names = get_names(grade_type,test_ind)
+    test_source_files = [os.path.join(source_folder,name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> test_names]
+    <span class="hljs-comment">## I use data/test here because the images can be mixed up</span>
+    move_files(test_source_files,<span class="hljs-string">"data/test"</span>)
+</div></div></code></pre><h2 id="Data_Visualization"><a class="anchor hidden-xs" href="#Data_Visualization" title="Data_Visualization"><span class="octicon octicon-link"></span></a>Data_Visualization:</h2><p><strong>Original data from questionarie:</strong><br>
+<img src="https://i.imgur.com/tf6DkEm.png" alt=""><br>
+<strong>After encoding:</strong><br>
+<img src="https://i.imgur.com/rSua6h7.png" alt=""></p><p><strong>Feature Distribution:</strong><br>
+<img src="https://i.imgur.com/SEiA1zM.png" alt=""></p><p><strong>Feature Relation:</strong><br>
+<img src="https://i.imgur.com/CLVGdqA.png" alt=""></p><p><strong>Image data batch:</strong><br>
+<img src="https://i.imgur.com/EWwBqtr.png" alt=""></p><h2 id="Model_Construcion"><a class="anchor hidden-xs" href="#Model_Construcion" title="Model_Construcion"><span class="octicon octicon-link"></span></a>Model_Construcion:</h2><h3 id="1CNNConvolutional-Neural-Network"><a class="anchor hidden-xs" href="#1CNNConvolutional-Neural-Network" title="1CNNConvolutional-Neural-Network"><span class="octicon octicon-link"></span></a>1.CNN(Convolutional Neural Network):</h3><p><strong><mark>Code Demonstration:</mark></strong><br>
+<strong>Explanation:</strong><br>
+<em>Transform image to generate more images for training.(Optional)</em><br>
+<em>Set batch size 20 for training.(Reason: GPU limit, better performance after trying.)</em></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code">tfms = get_transforms(do_flip=<span class="hljs-keyword">True</span>,flip_vert=<span class="hljs-keyword">True</span>)
+data = ImageDataBunch.from_folder(path,test=<span class="hljs-string">"test"</span>, bs=<span class="hljs-number">20</span>)
+<span class="hljs-comment"># data = ImageDataBunch.from_folder(path, bs=40)</span>
+data
+</div></div></code></pre><p><strong>output:</strong><br>
+<img src="https://i.imgur.com/HCxEFgx.png" alt=""></p><p><strong>Explanation:</strong><br>
+<em>Construct CNN model. I use resnet34, a pre-trained CNN network for training.</em></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code"><span class="hljs-keyword">from</span> fastai.vision <span class="hljs-keyword">import</span> *
+
+learn = cnn_learner(data,models.resnet34, metrics=[error_rate], callback_fns=ShowGraph)
+learn.model
+</div></div></code></pre><p><strong>output:</strong><br>
+<img src="https://i.imgur.com/Kogs92x.png" alt=""></p><p><em>Explanation:<br>
+Find the best learning rate using function provided by fastai</em></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span></div><div class="code">learn.lr_find(start_lr=<span class="hljs-number">1e-7</span>,end_lr=<span class="hljs-number">1e1</span>)
+learn.recorder.plot(suggestion=<span class="hljs-keyword">True</span>)
+</div></div></code></pre><p><strong>output:</strong><br>
+<img src="https://i.imgur.com/2A7Y88o.png" alt=""></p><p><strong>Explanation:</strong><br>
+<em>Do Training for 20 epochs.</em></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span></div><div class="code">learn.fit_one_cycle(<span class="hljs-number">20</span>,max_lr=<span class="hljs-number">3.02E-03</span>)
+</div></div></code></pre><p><strong>output:</strong><br>
+<img src="https://i.imgur.com/L5XURa8.png" alt=""></p><p><strong>After training, we can use testing set to test the correctness of the model.</strong><br>
+<strong>Print the result with confusion matrix and ROC curve.</strong><br>
+<strong>Confusion Matrix:</strong><br>
+<img src="https://i.imgur.com/kO5QF68.png" alt=""><br>
+<strong>ROC curve:</strong><br>
+<img src="https://i.imgur.com/p07sdpe.png" alt=""></p><p>Accuracy is about 60%.</p><h3 id="2-Random-Forest"><a class="anchor hidden-xs" href="#2-Random-Forest" title="2-Random-Forest"><span class="octicon octicon-link"></span></a>2. Random Forest:</h3><p><strong><mark>Code Demonstration:</mark></strong><br>
+Construct Random Forest model and do training.</p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span></div><div class="code"><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestClassifier
+<span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> make_classification
+
+clf = RandomForestClassifier(n_estimators=<span class="hljs-number">100</span>)
+
+clf = clf.fit(X_train, y_train) <span class="hljs-comment"># train model</span>
+Pred_x = clf.predict(X_test) <span class="hljs-comment"># predict model</span>
+yy = clf.predict_proba(X_test) <span class="hljs-comment"># probability of each class</span>
+</div></div></code></pre><p>We can then show the importance of every feature.</p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span></div><div class="code">imp = clf.feature_importances_
+<span class="hljs-comment"># sort(imp)</span>
+<span class="hljs-comment"># print(imp)</span>
+plt.title(<span class="hljs-string">'feature importance'</span>)
+
+plt.bar([<span class="hljs-string">'study time'</span>, <span class="hljs-string">'nearsighted'</span>, <span class="hljs-string">'degree'</span>, <span class="hljs-string">'sport'</span>, <span class="hljs-string">'money'</span>], [<span class="hljs-number">0.288692</span>, <span class="hljs-number">0.1</span>, <span class="hljs-number">0.07</span>, <span class="hljs-number">0.07</span>, <span class="hljs-number">0.05</span>], color=<span class="hljs-string">'red'</span>)
+plt.figure(figsize=(<span class="hljs-number">20</span>,<span class="hljs-number">4</span>))
+plt.show()
+</div></div></code></pre><p><strong>output:</strong><br>
+<img src="https://i.imgur.com/yyAbJo1.png" alt=""></p><p>Finally, we can make prediction using validation set.<br>
+Print the result with confusion matrix and ROC curve.<br>
+<strong>Confusion Matrix:</strong><br>
+<img src="https://i.imgur.com/v1hGhhY.png" alt=""><br>
+<strong>ROC curve:</strong><br>
+<img src="https://i.imgur.com/kHHUqDE.png" alt=""></p><h3 id="3-Logistic-Regression"><a class="anchor hidden-xs" href="#3-Logistic-Regression" title="3-Logistic-Regression"><span class="octicon octicon-link"></span></a>3. Logistic Regression:</h3><p><strong><mark>Code Demonstration:</mark></strong><br>
+Construct the Logistic Regression Model and do training.</p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span></div><div class="code"><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LogisticRegression
+
+clf = LogisticRegression()
+
+clf = clf.fit(X_train, y_train) <span class="hljs-comment"># train model</span>
+Pred_x = clf.predict(X_test) <span class="hljs-comment"># predict model</span>
+yy = clf.predict_proba(X_test) <span class="hljs-comment"># probability of each class</span>
+</div></div></code></pre><p>Samely, print the prediction result with confusion matrix and ROC curve.<br>
+<strong>Confusion Matrix:</strong><br>
+<img src="https://i.imgur.com/IpoLIyv.png" alt=""><br>
+<strong>ROC curve:</strong><br>
+<img src="https://i.imgur.com/JgjnIQk.png" alt=""></p><h2 id="Problems"><a class="anchor hidden-xs" href="#Problems" title="Problems"><span class="octicon octicon-link"></span></a>Problems</h2><p><strong>For image classification:</strong></p><ol>
+<li><strong>Resolution of image:</strong> Because the images were taken by different camera, they have different resolution and different size. If we use the same camera to collect data, performance may be better.</li>
+<li><strong>Standard Rule:</strong> We have set a standard rule and show a example image to user who upload their images. However, there are still some image are viloate our rule.</li>
+<li><strong>Dependency:</strong> Maybe there is no direct relation between grade and palmistry, so no matter how diligent we improve our model, performance will not be better.</li>
+<li><strong>Extraction of texture:</strong> In this project, we directly put image into CNN for training. However, maybe we should try extract the palm texture first, then do training for only texture.</li>
+</ol><p><strong>For classification with other features:</strong></p><ol>
+<li><strong>Feature Dependency:</strong> I think the feature we picked are not suitable because the relation between these features and grade are weak. It causes that it’s hard to do Machine Learning.</li>
+<li><strong>Design of questionnaire:</strong> The design of questionnaire is not good because we let user answer question freely in some question. Hence, the result format is not uniform and we have to transform by ourselves.</li>
+</ol><p><strong>Problems in common:</strong> Lack of data! 180 is not enough obviously.</p><h2 id="Future-work"><a class="anchor hidden-xs" href="#Future-work" title="Future-work"><span class="octicon octicon-link"></span></a>Future work:</h2><ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"><label></label>Collect more and more data. More is better.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"><label></label>Try other suitable feature.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"><label></label>Try to use the same camera to take picture.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"><label></label>Change a topic</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"><label></label>Try new method (extract palm texture) and retraining.</li>
+</ul><h2 id="Conclusion"><a class="anchor hidden-xs" href="#Conclusion" title="Conclusion"><span class="octicon octicon-link"></span></a>Conclusion:</h2><ul>
+<li>
+<p>In Random Forest model, We find <strong>Study time</strong> contributes the most in predicting grade.</p>
+</li>
+<li>
+<p>Logistic Regression has better performance than Random Forest.</p>
+</li>
+<li>
+<p>In Palm image classification, Palmistry seems unrelated but with this CNN model we can find the relations with the features.</p>
+</li>
+</ul></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#Machine-Learning-Final-Project-—-Grade-Prediction" title="Machine Learning Final Project — Grade Prediction">Machine Learning Final Project — Grade Prediction</a><ul class="nav">
+<li><a href="#Before-reading" title="Before reading:">Before reading:</a></li>
+<li><a href="#Introduction" title="Introduction:">Introduction:</a></li>
+<li><a href="#Motivation" title="Motivation:">Motivation:</a></li>
+<li><a href="#Data_Collection" title="Data_Collection:">Data_Collection:</a></li>
+<li><a href="#Data_Preprocessing" title="Data_Preprocessing:">Data_Preprocessing:</a></li>
+<li><a href="#Data_Visualization" title="Data_Visualization:">Data_Visualization:</a></li>
+<li><a href="#Model_Construcion" title="Model_Construcion:">Model_Construcion:</a><ul class="nav">
+<li><a href="#1CNNConvolutional-Neural-Network" title="1.CNN(Convolutional Neural Network):">1.CNN(Convolutional Neural Network):</a></li>
+<li><a href="#2-Random-Forest" title="2. Random Forest:">2. Random Forest:</a></li>
+<li><a href="#3-Logistic-Regression" title="3. Logistic Regression:">3. Logistic Regression:</a></li>
+</ul>
+</li>
+<li class=""><a href="#Problems" title="Problems">Problems</a></li>
+<li><a href="#Future-work" title="Future work:">Future work:</a></li>
+<li><a href="#Conclusion" title="Conclusion:">Conclusion:</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部展開</a><a class="back-to-top" href="#">回到頂部</a><a class="go-to-bottom" href="#">移至底部</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#Machine-Learning-Final-Project-—-Grade-Prediction" title="Machine Learning Final Project — Grade Prediction">Machine Learning Final Project — Grade Prediction</a><ul class="nav">
+<li><a href="#Before-reading" title="Before reading:">Before reading:</a></li>
+<li><a href="#Introduction" title="Introduction:">Introduction:</a></li>
+<li><a href="#Motivation" title="Motivation:">Motivation:</a></li>
+<li><a href="#Data_Collection" title="Data_Collection:">Data_Collection:</a></li>
+<li><a href="#Data_Preprocessing" title="Data_Preprocessing:">Data_Preprocessing:</a></li>
+<li><a href="#Data_Visualization" title="Data_Visualization:">Data_Visualization:</a></li>
+<li><a href="#Model_Construcion" title="Model_Construcion:">Model_Construcion:</a><ul class="nav">
+<li><a href="#1CNNConvolutional-Neural-Network" title="1.CNN(Convolutional Neural Network):">1.CNN(Convolutional Neural Network):</a></li>
+<li><a href="#2-Random-Forest" title="2. Random Forest:">2. Random Forest:</a></li>
+<li><a href="#3-Logistic-Regression" title="3. Logistic Regression:">3. Logistic Regression:</a></li>
+</ul>
+</li>
+<li class=""><a href="#Problems" title="Problems">Problems</a></li>
+<li><a href="#Future-work" title="Future work:">Future work:</a></li>
+<li><a href="#Conclusion" title="Conclusion:">Conclusion:</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部展開</a><a class="back-to-top" href="#">回到頂部</a><a class="go-to-bottom" href="#">移至底部</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>

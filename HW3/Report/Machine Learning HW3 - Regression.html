@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Machine Learning HW3 - Regression - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @charset "UTF-8";@import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-published-note{color:#337ab7}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true" style="position: relative;"><h1 id="Machine-Learning-HW3---Regression"><a class="anchor hidden-xs" href="#Machine-Learning-HW3---Regression" title="Machine-Learning-HW3---Regression"><span class="octicon octicon-link"></span></a>Machine Learning HW3 - Regression</h1><p>Author: 0616225 張承遠</p><h2 id="Objective-and-Explanation-of-Code"><a class="anchor hidden-xs" href="#Objective-and-Explanation-of-Code" title="Objective-and-Explanation-of-Code"><span class="octicon octicon-link"></span></a>Objective and Explanation of Code</h2><h3 id="Linear-Regression"><a class="anchor hidden-xs" href="#Linear-Regression" title="Linear-Regression"><span class="octicon octicon-link"></span></a>Linear Regression:</h3><ul>
+<li><strong>Gauss_Jordan function</strong><br>
+<em>Explanation: Use Gauss-Jordan function to compute inverse matrix :</em><br>
+Given <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-15-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><msup><mi>A</mi><mi>T</mi></msup><mi>A</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-130" style="width: 2.481em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.104em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.35em, 1002.1em, 2.535em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-131"><span class="msubsup" id="MathJax-Span-132"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.7em, 4.151em, -999.997em); top: -3.984em; left: 0em;"><span class="mi" id="MathJax-Span-133" style="font-family: MathJax_Math-italic;">A</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-134" style="font-size: 70.7%; font-family: MathJax_Math-italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mi" id="MathJax-Span-135" style="font-family: MathJax_Math-italic;">A</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 1.128em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>A</mi><mi>T</mi></msup><mi>A</mi></math></span></span><script type="math/tex" id="MathJax-Element-15">A^TA</script></span>, compute <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-16-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mo stretchy=&quot;false&quot;>(</mo><msup><mi>A</mi><mi>T</mi></msup><mi>A</mi><msup><mo stretchy=&quot;false&quot;>)</mo><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mo>&amp;#x2212;</mo><mn>1</mn></mrow></msup></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-136" style="width: 4.475em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.828em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.35em, 1003.83em, 2.804em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-137"><span class="mo" id="MathJax-Span-138" style="font-family: MathJax_Main;">(</span><span class="msubsup" id="MathJax-Span-139"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.7em, 4.151em, -999.997em); top: -3.984em; left: 0em;"><span class="mi" id="MathJax-Span-140" style="font-family: MathJax_Math-italic;">A</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-141" style="font-size: 70.7%; font-family: MathJax_Math-italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mi" id="MathJax-Span-142" style="font-family: MathJax_Math-italic;">A</span><span class="msubsup" id="MathJax-Span-143"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.074em, 1000.27em, 4.421em, -999.997em); top: -3.984em; left: 0em;"><span class="mo" id="MathJax-Span-144" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.38em;"><span class="texatom" id="MathJax-Span-145"><span class="mrow" id="MathJax-Span-146"><span class="mo" id="MathJax-Span-147" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-148" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.378em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><msup><mi>A</mi><mi>T</mi></msup><mi>A</mi><msup><mo stretchy="false">)</mo><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mn>1</mn></mrow></msup></math></span></span><script type="math/tex" id="MathJax-Element-16">(A^TA)^{-1}</script></span><br>
+<img src="https://i.imgur.com/WWyILAX.png" alt=""></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Gauss_Jordan</span><span class="hljs-params">(m)</span> :</span>
+    <span class="hljs-comment">#n*n matrix</span>
+    r, c = (m.shape[:<span class="hljs-number">2</span>])
+    eps = <span class="hljs-number">1.0</span> / (<span class="hljs-number">10</span>**<span class="hljs-number">10</span>)
+    <span class="hljs-comment">#ans is the append matrix that will become inverse matrix of m</span>
+    ans = np.eye(r)
+    <span class="hljs-comment">#Gauss elimination</span>
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> range(r):
+        <span class="hljs-comment">#do pivoting </span>
+        max_r = p
+        <span class="hljs-keyword">for</span> rr <span class="hljs-keyword">in</span> range(p+<span class="hljs-number">1</span>, r):
+            <span class="hljs-keyword">if</span> abs(m[rr][p]) &gt; abs(m[max_r][p]):
+                max_r = rr
+        <span class="hljs-comment">#change row</span>
+        m[[p, max_r]] = m[[max_r, p]]
+        ans[[p, max_r]] = ans[[max_r, p]]
+        <span class="hljs-comment">#check singular</span>
+        <span class="hljs-keyword">if</span> abs(m[p][p]) &lt;= eps:
+            print(<span class="hljs-string">"impossible"</span>)
+            <span class="hljs-keyword">return</span> 
+        <span class="hljs-comment">#Eliminate the elements below pivot</span>
+        <span class="hljs-keyword">for</span> rr <span class="hljs-keyword">in</span> range(p+<span class="hljs-number">1</span>, r):
+            ratio = m[rr][p] / m[p][p]
+            <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(p, c):
+                m[rr][col] -= ratio * m[p][col]
+                ans[rr][col] -= ratio * ans[p][col]
+    
+    <span class="hljs-comment">#Jorden elimination</span>
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> range(r<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>):
+        pp = m[p][p]
+        <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, p):
+            ratio = m[row][p] / pp
+            <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(c):
+                ans[row][col] -= ratio * ans[p][col]
+                m[row][col] -= ratio * m[p][col]
+        m[p][p] /= pp
+        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(c):
+            ans[p][col] /= pp
+<span class="hljs-comment">#     print(ans)</span>
+    <span class="hljs-keyword">return</span> ans
+</div></div></code></pre><ul>
+<li><strong>Matrix Multiplication and Matrix transpose</strong><br>
+<em>Explanation: implement the matrix operation function, since there is no matrix addition or subtraction in the program, so I didn’t implement it.</em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">multi</span><span class="hljs-params">(A, B)</span>:</span>
+    Arow, Acol = A.shape
+    Brow, Bcol = B.shape
+    
+    <span class="hljs-keyword">if</span> Acol!=Brow:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>
+    C = np.zeros([Arow, Bcol])
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(Arow):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(Bcol):
+            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(Acol):
+                C[i][j] += A[i][k] * B[k][j]
+    <span class="hljs-keyword">return</span> C
+    
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">transpose</span><span class="hljs-params">(A)</span>:</span>
+    Arow, Acol = A.shape
+    AT = np.zeros([Acol, Arow])
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(Acol):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(Arow):
+            AT[i][j] = A[j][i]
+    <span class="hljs-keyword">return</span> AT
+</div></div></code></pre><ul>
+<li><strong>forumla function</strong><br>
+<em>Explanation: A compact funciton to compute <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-98-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>y</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-365" style="width: 0.595em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.488em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.781em, 1000.49em, 2.751em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-366"><span class="mi" id="MathJax-Span-367" style="font-family: MathJax_Math-italic;">y<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.309em; border-left: 0px solid; width: 0px; height: 0.878em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>y</mi></math></span></span><script type="math/tex" id="MathJax-Element-98">y</script></span> given <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-99-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>x</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-368" style="width: 0.703em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.595em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.781em, 1000.54em, 2.535em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-369"><span class="mi" id="MathJax-Span-370" style="font-family: MathJax_Math-italic;">x</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 0.628em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math></span></span><script type="math/tex" id="MathJax-Element-99">x</script></span> and weights <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-100-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>w</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-371" style="width: 0.811em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.703em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.781em, 1000.7em, 2.535em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-372"><span class="mi" id="MathJax-Span-373" style="font-family: MathJax_Math-italic;">w</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 0.628em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>w</mi></math></span></span><script type="math/tex" id="MathJax-Element-100">w</script></span></em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">formula</span><span class="hljs-params">(w, x)</span>:</span>
+    <span class="hljs-keyword">return</span> w[<span class="hljs-number">2</span>] * (x**<span class="hljs-number">2</span>) + w[<span class="hljs-number">1</span>] * x +  w[<span class="hljs-number">0</span>]
+</div></div></code></pre><ul>
+<li><strong>Linear Regression function</strong><br>
+<em>Explanation: Use Gauss Joredn to compute inverse matrix<br>
+Then, compute weights according to the formula <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-6-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>x</mi><mtext>&amp;#xA0;</mtext><mo>=</mo><mo stretchy=&quot;false&quot;>(</mo><msup><mi>A</mi><mi>T</mi></msup><mi>A</mi><msup><mo stretchy=&quot;false&quot;>)</mo><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mo>&amp;#x2212;</mo><mn>1</mn></mrow></msup><msup><mi>A</mi><mi>T</mi></msup><mi>b</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-29" style="width: 9.001em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.761em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.35em, 1007.76em, 2.804em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-30"><span class="mi" id="MathJax-Span-31" style="font-family: MathJax_Math-italic;">x</span><span class="mtext" id="MathJax-Span-32" style="font-family: MathJax_Main;">&nbsp;</span><span class="mo" id="MathJax-Span-33" style="font-family: MathJax_Main; padding-left: 0.272em;">=</span><span class="mo" id="MathJax-Span-34" style="font-family: MathJax_Main; padding-left: 0.272em;">(</span><span class="msubsup" id="MathJax-Span-35"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.7em, 4.151em, -999.997em); top: -3.984em; left: 0em;"><span class="mi" id="MathJax-Span-36" style="font-family: MathJax_Math-italic;">A</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-37" style="font-size: 70.7%; font-family: MathJax_Math-italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mi" id="MathJax-Span-38" style="font-family: MathJax_Math-italic;">A</span><span class="msubsup" id="MathJax-Span-39"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.074em, 1000.27em, 4.421em, -999.997em); top: -3.984em; left: 0em;"><span class="mo" id="MathJax-Span-40" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.38em;"><span class="texatom" id="MathJax-Span-41"><span class="mrow" id="MathJax-Span-42"><span class="mo" id="MathJax-Span-43" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-44" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-45"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.7em, 4.151em, -999.997em); top: -3.984em; left: 0em;"><span class="mi" id="MathJax-Span-46" style="font-family: MathJax_Math-italic;">A</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-47" style="font-size: 70.7%; font-family: MathJax_Math-italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mi" id="MathJax-Span-48" style="font-family: MathJax_Math-italic;">b</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.378em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi><mtext>&nbsp;</mtext><mo>=</mo><mo stretchy="false">(</mo><msup><mi>A</mi><mi>T</mi></msup><mi>A</mi><msup><mo stretchy="false">)</mo><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>A</mi><mi>T</mi></msup><mi>b</mi></math></span></span><script type="math/tex" id="MathJax-Element-6">x\ = (A^TA)^{-1}A^Tb</script></span> for diffenet base<br>
+Finally, plot the result.</em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Linear</span><span class="hljs-params">(data, base)</span>:</span>
+    print(<span class="hljs-string">"Linear Regression for base {}"</span>.format(base))
+    b = np.array(data.loc[:,<span class="hljs-string">'y'</span>])
+    ones = np.ones(data.shape[<span class="hljs-number">0</span>])
+    x = data.loc[:,<span class="hljs-string">'x'</span>]
+    right =   max(data[<span class="hljs-string">'x'</span>]) +<span class="hljs-number">1</span>
+    left = min(data[<span class="hljs-string">'x'</span>]) <span class="hljs-number">-1</span>
+    up =  max(data[<span class="hljs-string">'y'</span>]) +<span class="hljs-number">10</span>
+    down =  min(data[<span class="hljs-string">'y'</span>]) <span class="hljs-number">-10</span>
+    
+    <span class="hljs-keyword">if</span> base==<span class="hljs-number">2</span>:
+        A = np.array( (ones ,x) )
+    <span class="hljs-keyword">elif</span> base==<span class="hljs-number">3</span>:
+        A = np.array( (ones, x, x**<span class="hljs-number">2</span>) )
+    <span class="hljs-comment">#transpose and compute weights</span>
+    AT = A.T
+    INV = Gauss_Jordan(A.dot(AT))
+    w = INV.dot(A).dot(b)
+    
+    <span class="hljs-keyword">if</span> base==<span class="hljs-number">2</span>:
+        w = np.append(w, <span class="hljs-number">0</span>)
+    print(<span class="hljs-string">"weights after calcualted (w0 + w1*x + w2*(x^2)):"</span>, w)
+    
+    <span class="hljs-comment">#plot results</span>
+    a1 = np.linspace(left, right, <span class="hljs-number">100</span>)
+    a2 = formula(w, a1)
+    err = <span class="hljs-number">1</span>/<span class="hljs-number">2</span> * sum( [ ( data.loc[i, <span class="hljs-string">'y'</span>] - formula(w, data.loc[i, <span class="hljs-string">'x'</span>]) )**<span class="hljs-number">2</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(data.shape[<span class="hljs-number">0</span>])] )
+    print(<span class="hljs-string">"L2-norm error: "</span>, err)
+
+    plt.figure()
+    plt.scatter(data[<span class="hljs-string">'x'</span>], data[<span class="hljs-string">'y'</span>], c=<span class="hljs-string">'red'</span>)
+    plt.ylim(ymax=up, ymin=down)
+    print(<span class="hljs-string">"result"</span>)
+    plt.plot(a1, a2)
+    plt.show()
+</div></div></code></pre><h3 id="Logistic-Regression"><a class="anchor hidden-xs" href="#Logistic-Regression" title="Logistic-Regression"><span class="octicon octicon-link"></span></a>Logistic Regression:</h3><ul>
+<li><strong>Sigmoid funcion:</strong><br>
+<em>Explanation: Given <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-7-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>x</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-49" style="width: 0.703em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.595em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.781em, 1000.54em, 2.535em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-50"><span class="mi" id="MathJax-Span-51" style="font-family: MathJax_Math-italic;">x</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 0.628em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math></span></span><script type="math/tex" id="MathJax-Element-7">x</script></span>, simulate the sigmoid function <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-8-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>y</mi><mo>=</mo><mstyle displaystyle=&quot;true&quot; scriptlevel=&quot;0&quot;><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mo>&amp;#x2212;</mo><mi>x</mi></mrow></msup></mrow></mfrac></mstyle></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-52" style="width: 6.253em; display: inline-block;"><span style="display: inline-block; position: relative; width: 5.391em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(0.865em, 1005.39em, 3.289em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-53"><span class="mi" id="MathJax-Span-54" style="font-family: MathJax_Math-italic;">y<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mo" id="MathJax-Span-55" style="font-family: MathJax_Main; padding-left: 0.272em;">=</span><span class="mstyle" id="MathJax-Span-56" style="padding-left: 0.272em;"><span class="mrow" id="MathJax-Span-57"><span class="mfrac" id="MathJax-Span-58"><span style="display: inline-block; position: relative; width: 3.343em; height: 0px; margin-right: 0.11em; margin-left: 0.11em;"><span style="position: absolute; clip: rect(3.182em, 1000.43em, 4.151em, -999.997em); top: -4.685em; left: 50%; margin-left: -0.267em;"><span class="mn" id="MathJax-Span-59" style="font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(3.128em, 1003.24em, 4.259em, -999.997em); top: -3.284em; left: 50%; margin-left: -1.614em;"><span class="mrow" id="MathJax-Span-60"><span class="mn" id="MathJax-Span-61" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-62" style="font-family: MathJax_Main; padding-left: 0.218em;">+</span><span class="msubsup" id="MathJax-Span-63" style="padding-left: 0.218em;"><span style="display: inline-block; position: relative; width: 1.511em; height: 0px;"><span style="position: absolute; clip: rect(3.397em, 1000.43em, 4.151em, -999.997em); top: -3.984em; left: 0em;"><span class="mi" id="MathJax-Span-64" style="font-family: MathJax_Math-italic;">e</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.254em; left: 0.488em;"><span class="texatom" id="MathJax-Span-65"><span class="mrow" id="MathJax-Span-66"><span class="mo" id="MathJax-Span-67" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mi" id="MathJax-Span-68" style="font-size: 70.7%; font-family: MathJax_Math-italic;">x</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(0.865em, 1003.34em, 1.242em, -999.997em); top: -1.29em; left: 0em;"><span style="display: inline-block; overflow: hidden; vertical-align: 0em; border-top: 1.3px solid; width: 3.343em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.08em;"></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.934em; border-left: 0px solid; width: 0px; height: 2.566em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>y</mi><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mi>x</mi></mrow></msup></mrow></mfrac></mstyle></math></span></span><script type="math/tex" id="MathJax-Element-8">y = \dfrac{1}{1+e^{-x}}</script></span>, then return <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-9-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>y</mi></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-69" style="width: 0.595em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.488em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.781em, 1000.49em, 2.751em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-70"><span class="mi" id="MathJax-Span-71" style="font-family: MathJax_Math-italic;">y<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.309em; border-left: 0px solid; width: 0px; height: 0.878em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>y</mi></math></span></span><script type="math/tex" id="MathJax-Element-9">y</script></span>.<br><br>
+To avoid the OverflowError problem<br>
+( <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-10-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>m</mi><mi>a</mi><mi>t</mi><mi>h</mi><mo>.</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy=&quot;false&quot;>(</mo><mo>&amp;#x2212;</mo><mi>x</mi><mo stretchy=&quot;false&quot;>)</mo></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-72" style="width: 7.492em; display: inline-block;"><span style="display: inline-block; position: relative; width: 6.468em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.457em, 1006.36em, 2.804em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-73"><span class="mi" id="MathJax-Span-74" style="font-family: MathJax_Math-italic;">m</span><span class="mi" id="MathJax-Span-75" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-76" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-77" style="font-family: MathJax_Math-italic;">h</span><span class="mo" id="MathJax-Span-78" style="font-family: MathJax_Main;">.</span><span class="mi" id="MathJax-Span-79" style="font-family: MathJax_Math-italic; padding-left: 0.164em;">e</span><span class="mi" id="MathJax-Span-80" style="font-family: MathJax_Math-italic;">x</span><span class="mi" id="MathJax-Span-81" style="font-family: MathJax_Math-italic;">p</span><span class="mo" id="MathJax-Span-82" style="font-family: MathJax_Main;">(</span><span class="mo" id="MathJax-Span-83" style="font-family: MathJax_Main;">−</span><span class="mi" id="MathJax-Span-84" style="font-family: MathJax_Math-italic;">x</span><span class="mo" id="MathJax-Span-85" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.316em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>m</mi><mi>a</mi><mi>t</mi><mi>h</mi><mo>.</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false">(</mo><mo>−</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-10">math.exp(-x)</script></span> may be too large to cause OverflowError), set an exception and give answer a very samll number.<br><br>
+To avoid the problem that one of the calculation in cross entropy function will calculate <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-11-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy=&quot;false&quot;>(</mo><mn>1</mn><mo>&amp;#x2212;</mo><mi>s</mi><mi>i</mi><mi>g</mi><mi>m</mi><mi>o</mi><mi>i</mi><mi>d</mi><mo stretchy=&quot;false&quot;>(</mo><mi>x</mi><mo stretchy=&quot;false&quot;>)</mo><mo stretchy=&quot;false&quot;>)</mo></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-86" style="width: 10.024em; display: inline-block;"><span style="display: inline-block; position: relative; width: 8.623em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.457em, 1008.52em, 2.804em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-87"><span class="mi" id="MathJax-Span-88" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-89" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-90" style="font-family: MathJax_Math-italic;">g<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mo" id="MathJax-Span-91" style="font-family: MathJax_Main;">(</span><span class="mn" id="MathJax-Span-92" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-93" style="font-family: MathJax_Main; padding-left: 0.218em;">−</span><span class="mi" id="MathJax-Span-94" style="font-family: MathJax_Math-italic; padding-left: 0.218em;">s</span><span class="mi" id="MathJax-Span-95" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-96" style="font-family: MathJax_Math-italic;">g<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-97" style="font-family: MathJax_Math-italic;">m</span><span class="mi" id="MathJax-Span-98" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-99" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-100" style="font-family: MathJax_Math-italic;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mo" id="MathJax-Span-101" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-102" style="font-family: MathJax_Math-italic;">x</span><span class="mo" id="MathJax-Span-103" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-104" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.316em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>s</mi><mi>i</mi><mi>g</mi><mi>m</mi><mi>o</mi><mi>i</mi><mi>d</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-11">log(1-sigmoid(x))</script></span>, and if returned number equal to 1, it will cause <strong>math domain error</strong> because there is no definition for <span class="mathjax"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-12-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>l</mi><mi>o</mi><mi>g</mi><mn>0</mn></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-105" style="width: 2.104em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.781em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.511em, 1001.73em, 2.751em, -999.997em); top: -2.368em; left: 0em;"><span class="mrow" id="MathJax-Span-106"><span class="mi" id="MathJax-Span-107" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-108" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-109" style="font-family: MathJax_Math-italic;">g<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mn" id="MathJax-Span-110" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.373em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.309em; border-left: 0px solid; width: 0px; height: 1.191em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>l</mi><mi>o</mi><mi>g</mi><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-12">log0</script></span></em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sigmoid</span><span class="hljs-params">(x)</span>:</span>
+    <span class="hljs-keyword">try</span>:
+        a = <span class="hljs-number">1</span> / (<span class="hljs-number">1</span> + math.exp(-x))
+    <span class="hljs-keyword">except</span> OverflowError:
+        a = <span class="hljs-number">0.00000001</span>
+    
+    <span class="hljs-keyword">if</span> a==<span class="hljs-number">1.0</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0.999999999</span>
+    <span class="hljs-keyword">return</span> a
+</div></div></code></pre><ul>
+<li><strong>Cross Entropy function:</strong><br>
+<em>Explanation: compute cross entropy error and use gradient descend to approach the best weights that fit the data.<br>
+In this function, I set the threshold of ten thousand iteration and if cross entropy error lower than a spceified value, break the loop.<br>
+After finding the best weights, compute the result of prediction.<br>
+Finally, plot the result.</em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span>
+<span data-linenumber="48"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cross_entropy</span><span class="hljs-params">(w, x, y)</span>:</span>
+    print(<span class="hljs-string">'For cross entropy method'</span>)
+
+    eps = <span class="hljs-number">1</span> / <span class="hljs-number">10000</span>
+    dim = <span class="hljs-number">3</span>
+    total_err = <span class="hljs-number">1000</span>
+    cnt = <span class="hljs-number">0</span>
+    alpha = <span class="hljs-number">0.0025</span>
+    
+    <span class="hljs-keyword">while</span> total_err &gt; eps:
+        num = len(x[<span class="hljs-number">0</span>])
+        cnt += <span class="hljs-number">1</span>
+        <span class="hljs-comment">#compute gradient</span>
+        w_gradient = [ sum ( [ ( sigmoid( sum( ([ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim)]) ) ) - y[i] ) * x[d][i] \
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num)] ) <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> range(dim) ]
+        
+        <span class="hljs-comment">#update weight</span>
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim):
+            w[j] -= (alpha * w_gradient[j])
+        error = sum( [ -( ( y[i] * math.log( sigmoid( sum( [ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim)]) ) ) ) + \
+                ( ( <span class="hljs-number">1</span> - y[i] ) * math.log( <span class="hljs-number">1</span> - sigmoid( sum( [ (w[j] * x[j][i] ) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim)]) ) ) ) ) \
+                      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num) ])
+<span class="hljs-comment">#         if cnt%1000==0:</span>
+<span class="hljs-comment">#             print(error)</span>
+        <span class="hljs-keyword">if</span> cnt &gt; <span class="hljs-number">10000</span>:
+            <span class="hljs-keyword">break</span>
+    plt.figure()
+    confuse = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num):
+        pred = sigmoid( sum( ([ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim)]) ) )
+        <span class="hljs-keyword">if</span> int(pred+<span class="hljs-number">0.5</span>) == y[i]:
+            <span class="hljs-keyword">if</span> y[i]==<span class="hljs-number">1</span>:
+                confuse[<span class="hljs-number">3</span>]+=<span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                confuse[<span class="hljs-number">0</span>]+=<span class="hljs-number">1</span>
+            
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">if</span> y[i]==<span class="hljs-number">1</span>:
+                confuse[<span class="hljs-number">2</span>] += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                confuse[<span class="hljs-number">1</span>] += <span class="hljs-number">1</span>
+            
+        <span class="hljs-keyword">if</span> int(pred+<span class="hljs-number">0.5</span>) == <span class="hljs-number">1</span>:
+            plt.scatter(x[<span class="hljs-number">0</span>][i], x[<span class="hljs-number">1</span>][i], c=<span class="hljs-string">"blue"</span>)
+        <span class="hljs-keyword">else</span>:
+            plt.scatter(x[<span class="hljs-number">0</span>][i], x[<span class="hljs-number">1</span>][i], c=<span class="hljs-string">"red"</span>)
+    metrics(confuse)
+    <span class="hljs-keyword">return</span> w
+</div></div></code></pre><ul>
+<li><strong>L2_norm function:</strong><br>
+<em>Explanation: compute L2 norm error and use gradient descend to approach the best weights that fit the data.<br>
+In this function, I set the same threshold as avove for fair.<br>
+After finding the best weights, compute the result of prediction.<br>
+Finally, plot the result.</em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">L2_norm</span><span class="hljs-params">(w, x, y)</span>:</span>
+    print(<span class="hljs-string">'For L2_norm method'</span>)
+    eps = <span class="hljs-number">1</span> / <span class="hljs-number">10000</span>
+    dim = <span class="hljs-number">3</span>
+    total_err = <span class="hljs-number">1000</span>
+    cnt = <span class="hljs-number">0</span>
+    alpha = <span class="hljs-number">0.00025</span>
+    
+    <span class="hljs-keyword">while</span> total_err &gt; eps:
+        num = len(x[<span class="hljs-number">0</span>])
+        cnt += <span class="hljs-number">1</span>
+        <span class="hljs-comment">#compute gradient</span>
+        w_gradient = [ sum( [ (sigmoid( sum( [ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim) ]) ) - y[i]  )\
+                             * sigmoid( sum( [ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim) ]) ) * \
+                             (<span class="hljs-number">1</span> - sigmoid( sum( [ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim) ]) ) ) * \
+                            x[d][i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num) ]  ) <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> range(dim) ]
+        <span class="hljs-comment">#update weight</span>
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim):
+            w[j] -= (alpha * w_gradient[j])
+        error = (<span class="hljs-number">1</span>/<span class="hljs-number">2</span>) * sum( [  (y[i] - sigmoid( sum( [ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim) ]) ) )**<span class="hljs-number">2</span> \
+                      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num)] )
+<span class="hljs-comment">#         if cnt%1000==0:</span>
+<span class="hljs-comment">#             print(error)</span>
+        <span class="hljs-keyword">if</span> cnt &gt; <span class="hljs-number">10000</span>:
+            <span class="hljs-keyword">break</span>
+    plt.figure()
+    confuse = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num):
+        pred = sigmoid( sum( ([ (w[j] * x[j][i]) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(dim)]) ) )
+        <span class="hljs-keyword">if</span> int(pred+<span class="hljs-number">0.5</span>) == y[i]:
+            <span class="hljs-keyword">if</span> y[i]==<span class="hljs-number">1</span>:
+                confuse[<span class="hljs-number">3</span>]+=<span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                confuse[<span class="hljs-number">0</span>]+=<span class="hljs-number">1</span>         
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">if</span> y[i]==<span class="hljs-number">1</span>:
+                confuse[<span class="hljs-number">2</span>] += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                confuse[<span class="hljs-number">1</span>] += <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">if</span> int(pred+<span class="hljs-number">0.5</span>) == <span class="hljs-number">1</span>:
+            plt.scatter(x[<span class="hljs-number">0</span>][i], x[<span class="hljs-number">1</span>][i], c=<span class="hljs-string">"blue"</span>)
+        <span class="hljs-keyword">else</span>:
+            plt.scatter(x[<span class="hljs-number">0</span>][i], x[<span class="hljs-number">1</span>][i], c=<span class="hljs-string">"red"</span>)
+            
+    metrics(confuse)
+    <span class="hljs-keyword">return</span> w
+</div></div></code></pre><ul>
+<li><strong>metrics function:</strong><br>
+<em>Explanation: print the result of precision, recall, accuracy and confusion matrix.</em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">metrics</span><span class="hljs-params">(c)</span>:</span>
+    print(<span class="hljs-string">'Confusion Matrix: '</span>)
+    d = {<span class="hljs-string">"predict cluster 0"</span> : [c[<span class="hljs-number">0</span>], c[<span class="hljs-number">2</span>]],  <span class="hljs-string">"predict cluster 1"</span>: [c[<span class="hljs-number">1</span>], c[<span class="hljs-number">3</span>]]}
+    m = pd.DataFrame(data = d, index = [<span class="hljs-string">"Is cluster 0"</span>, <span class="hljs-string">"Is cluster 1"</span>])
+    print(m)
+    print()
+    <span class="hljs-keyword">try</span>:
+        r1 = c[<span class="hljs-number">0</span>] / (c[<span class="hljs-number">0</span>]+c[<span class="hljs-number">2</span>])
+    <span class="hljs-keyword">except</span> ZeroDivisionError:
+        r1 = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">try</span>:
+        r2 = c[<span class="hljs-number">3</span>] / (c[<span class="hljs-number">1</span>]+c[<span class="hljs-number">3</span>]) 
+    <span class="hljs-keyword">except</span> ZeroDivisionError:
+        r2 = <span class="hljs-number">0</span>
+    print(<span class="hljs-string">'Recall: {0} for cluster 0,     {1} for cluster 1'</span>.format(r1, r2) )
+    print()
+
+    <span class="hljs-keyword">try</span>:
+        p1 = c[<span class="hljs-number">0</span>] / (c[<span class="hljs-number">0</span>]+c[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">except</span>:
+        p1 = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">try</span>:
+        p2 = c[<span class="hljs-number">3</span>] / (c[<span class="hljs-number">2</span>]+c[<span class="hljs-number">3</span>])
+    <span class="hljs-keyword">except</span>:
+        p2 = <span class="hljs-number">0</span>
+    print(<span class="hljs-string">'Precision: {0} for cluster 0,     {1} for cluster 1'</span>.format(p1, p2) )
+    print()
+
+    print(<span class="hljs-string">'Accuracy: {}'</span>.format((c[<span class="hljs-number">0</span>]+c[<span class="hljs-number">3</span>]) / (c[<span class="hljs-number">0</span>]+c[<span class="hljs-number">1</span>]+c[<span class="hljs-number">2</span>]+c[<span class="hljs-number">3</span>])))
+    print()
+</div></div></code></pre><ul>
+<li><strong>Logistic funciton</strong><br>
+<em>Explanation: First, plot the input points, then calculate the best weights through two method: cross entropy and L2 norm.<br>
+I set the initial weights to random numbers between -200~200, the reason of setting the range is I have known the best weights first and the best weights are in the range. To avoid computing best weights too long, I didn’t set the range too large.<br><br>
+Then, compute the result of using both method and plot the best line that divide the two class according to best weights.</em></li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span>
+<span data-linenumber="48"></span>
+<span data-linenumber="49"></span>
+<span data-linenumber="50"></span>
+<span data-linenumber="51"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Logistic</span><span class="hljs-params">(data1, data2)</span>:</span>
+    print(<span class="hljs-string">"Logistic Regression: "</span>)
+
+    w = np.zeros(<span class="hljs-number">3</span>)
+    plt.figure()
+    plt.scatter((data1[<span class="hljs-string">'x'</span>]), (data1[<span class="hljs-string">'y'</span>]), c=<span class="hljs-string">'red'</span>)
+    plt.scatter(data2[<span class="hljs-string">'x'</span>], data2[<span class="hljs-string">'y'</span>], c=<span class="hljs-string">'blue'</span>)
+    print(<span class="hljs-string">"ground truth: (initial points)"</span>)
+    plt.show()
+    right =  max( max(data1[<span class="hljs-string">'x'</span>]), max(data2[<span class="hljs-string">'x'</span>])) +<span class="hljs-number">1</span>
+    left = min( min(data1[<span class="hljs-string">'x'</span>]), min(data2[<span class="hljs-string">'x'</span>])) <span class="hljs-number">-1</span>
+    up = max( max(data1[<span class="hljs-string">'y'</span>]), max(data2[<span class="hljs-string">'y'</span>])) +<span class="hljs-number">1</span>
+    down = min( min(data1[<span class="hljs-string">'y'</span>]), min(data2[<span class="hljs-string">'y'</span>])) <span class="hljs-number">-1</span>
+
+    data1[<span class="hljs-string">'label'</span>] = <span class="hljs-number">0</span>
+    data2[<span class="hljs-string">'label'</span>] = <span class="hljs-number">1</span>
+    data1 = data1.append(data2)
+    
+    t = np.array(( data1[<span class="hljs-string">'x'</span>], data1[<span class="hljs-string">'y'</span>], np.ones(data1.shape[<span class="hljs-number">0</span>]) ) )
+    y = np.array(data1[<span class="hljs-string">'label'</span>])
+
+    <span class="hljs-comment">#--------------------------------------------------#</span>
+    <span class="hljs-comment">#give random initial weights</span>
+    a = float(random.randint(<span class="hljs-number">-200</span>, <span class="hljs-number">200</span>))
+    b = float(random.randint(<span class="hljs-number">-200</span>, <span class="hljs-number">200</span>))
+    c = float(random.randint(<span class="hljs-number">-200</span>, <span class="hljs-number">200</span>))
+
+    w = np.array([a, b, c])
+    
+    <span class="hljs-comment">#cross entropy</span>
+    w = cross_entropy(w, t, y)
+    print(<span class="hljs-string">"weights after calcualted (w0 * x + w1 * y + w2 = 0):"</span>, w)
+
+    a1 = np.linspace(left, right, <span class="hljs-number">100</span>)
+    a2 = ( (-w[<span class="hljs-number">0</span>] * a1) - w[<span class="hljs-number">2</span>]) / w[<span class="hljs-number">1</span>]
+    plt.ylim(ymin=down, ymax=up)
+    print(<span class="hljs-string">'result'</span>)
+    plt.plot(a1, a2)
+    plt.show()
+    <span class="hljs-comment">#--------------------------------------------------#</span>
+    <span class="hljs-comment">#L2-norm</span>
+    w = np.array([a, b, c])
+    
+    w = L2_norm(w, t, y)
+    print(<span class="hljs-string">"weights after calcualted (w0 * x + w1 * y + w2 = 0):"</span>, w)
+    a1 = np.linspace(left, right, <span class="hljs-number">100</span>)
+    a2 = ( (-w[<span class="hljs-number">0</span>] * a1) - w[<span class="hljs-number">2</span>]) / w[<span class="hljs-number">1</span>]
+    print(<span class="hljs-string">"result"</span>)
+    plt.ylim(ymin=down, ymax=up)
+    plt.plot(a1, a2)
+    plt.show()
+</div></div></code></pre><ul>
+<li>main function:</li>
+</ul><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span></div><div class="code"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
+    <span class="hljs-comment">#-----------------Linear Regression----------------#</span>
+    data = pd.read_csv(<span class="hljs-string">"linear_data.txt"</span>, names = [<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>])
+
+    <span class="hljs-comment">#-------------------base2-------------------------#</span>
+    Linear(data, <span class="hljs-number">2</span>)
+    <span class="hljs-comment">#-------------------base3-------------------------#</span>
+    Linear(data, <span class="hljs-number">3</span>)
+
+
+    <span class="hljs-comment">#-----------------Logistic Regression--------------#</span>
+    data1 = pd.read_csv(<span class="hljs-string">"Logistic_data1-1.txt"</span>, names=[<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>])
+    data2 = pd.read_csv(<span class="hljs-string">"Logistic_data1-2.txt"</span>, names=[<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>])
+    Logistic(data1, data2)
+
+    data1 = pd.read_csv(<span class="hljs-string">"Logistic_data2-1.txt"</span>, names=[<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>])
+    data2 = pd.read_csv(<span class="hljs-string">"Logistic_data2-2.txt"</span>, names=[<span class="hljs-string">'x'</span>, <span class="hljs-string">'y'</span>])
+    Logistic(data1, data2)
+    <span class="hljs-comment">#---------------------end--------------------------#</span>
+</div></div></code></pre><h2 id="Result"><a class="anchor hidden-xs" href="#Result" title="Result"><span class="octicon octicon-link"></span></a>Result</h2><h3 id="Linear-Regression1"><a class="anchor hidden-xs" href="#Linear-Regression1" title="Linear-Regression1"><span class="octicon octicon-link"></span></a>Linear Regression:</h3><p><img src="https://i.imgur.com/KaFMwZj.png" alt=""><br>
+<img src="https://i.imgur.com/texFu2d.png" alt=""></p><h3 id="Logistic-Regression1"><a class="anchor hidden-xs" href="#Logistic-Regression1" title="Logistic-Regression1"><span class="octicon octicon-link"></span></a>Logistic Regression:</h3><p><strong>Data1</strong><br>
+<img src="https://i.imgur.com/0b33IYh.png" alt=""><br>
+<img src="https://i.imgur.com/F57hjaq.png" alt=""><br>
+<img src="https://i.imgur.com/DZIQGPR.png" alt=""></p><p><img src="https://i.imgur.com/GeiiZbh.png" alt=""><br>
+<strong>Data2</strong></p><p><img src="https://i.imgur.com/TICYOVD.png" alt=""><br>
+<img src="https://i.imgur.com/qwXBNZu.png" alt=""><br>
+<img src="https://i.imgur.com/WDaKWpM.png" alt=""></p><h2 id="Comparision"><a class="anchor hidden-xs" href="#Comparision" title="Comparision"><span class="octicon octicon-link"></span></a>Comparision:</h2><h3 id="Cross-entropy-and-L2-norm"><a class="anchor hidden-xs" href="#Cross-entropy-and-L2-norm" title="Cross-entropy-and-L2-norm"><span class="octicon octicon-link"></span></a>Cross entropy and L2 norm:</h3><blockquote>
+<p><img src="https://i.imgur.com/01PDgOe.png" alt=""></p>
+</blockquote><p>The picture above is from Net, it depicts the relation between error(loss) and weights parameter assume that there are two weights w1 and w2 and the best weights is w1=0, w2=0.<br>
+It shows that the error curve of L2-norm is smooth, on the other hand, the error curve of corss entropy is steep.<br><br>
+We can know from the picture that given a random initial weight <em>(if we don’t know the best weight first)</em> and using gradient descend to find the best weight, it is fast and simple to find the best weight if the error is steep because gradient descend method use the slope of error function to iterate.<br><br>
+In the meanwhile, we can know that using L2-norm error funciton will cause fatal error because the error curve is smooth and  gradient descend update slowly. <br><br>
+The result can be proved in my result. Given the random initial weights, and same iteration times and same learning rate, we can find the result using L2-norm is bad. If we print the updated errors during gradient descend, we can find the error did decrease, but it’s very slow.<br><br>
+As for the cross entropy error funciton, we find that it work well and updated error faster in gradient descend. It is obvious that in Logistic Regression, cross entropy error function is better than L2-norm error function.</p><hr></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#Machine-Learning-HW3---Regression" title="Machine Learning HW3 - Regression">Machine Learning HW3 - Regression</a><ul class="nav">
+<li class=""><a href="#Objective-and-Explanation-of-Code" title="Objective and Explanation of Code">Objective and Explanation of Code</a><ul class="nav">
+<li class=""><a href="#Linear-Regression" title="Linear Regression:">Linear Regression:</a></li>
+<li><a href="#Logistic-Regression" title="Logistic Regression:">Logistic Regression:</a></li>
+</ul>
+</li>
+<li><a href="#Result" title="Result">Result</a><ul class="nav">
+<li><a href="#Linear-Regression1" title="Linear Regression:">Linear Regression:</a></li>
+<li><a href="#Logistic-Regression1" title="Logistic Regression:">Logistic Regression:</a></li>
+</ul>
+</li>
+<li><a href="#Comparision" title="Comparision:">Comparision:</a><ul class="nav">
+<li><a href="#Cross-entropy-and-L2-norm" title="Cross entropy and L2 norm:">Cross entropy and L2 norm:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部展開</a><a class="back-to-top" href="#">回到頂部</a><a class="go-to-bottom" href="#">移至底部</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#Machine-Learning-HW3---Regression" title="Machine Learning HW3 - Regression">Machine Learning HW3 - Regression</a><ul class="nav">
+<li class=""><a href="#Objective-and-Explanation-of-Code" title="Objective and Explanation of Code">Objective and Explanation of Code</a><ul class="nav">
+<li class=""><a href="#Linear-Regression" title="Linear Regression:">Linear Regression:</a></li>
+<li><a href="#Logistic-Regression" title="Logistic Regression:">Logistic Regression:</a></li>
+</ul>
+</li>
+<li><a href="#Result" title="Result">Result</a><ul class="nav">
+<li><a href="#Linear-Regression1" title="Linear Regression:">Linear Regression:</a></li>
+<li><a href="#Logistic-Regression1" title="Logistic Regression:">Logistic Regression:</a></li>
+</ul>
+</li>
+<li><a href="#Comparision" title="Comparision:">Comparision:</a><ul class="nav">
+<li><a href="#Cross-entropy-and-L2-norm" title="Cross entropy and L2 norm:">Cross entropy and L2 norm:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部展開</a><a class="back-to-top" href="#">回到頂部</a><a class="go-to-bottom" href="#">移至底部</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
